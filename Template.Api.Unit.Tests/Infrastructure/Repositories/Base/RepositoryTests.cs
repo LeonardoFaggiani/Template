@@ -55,19 +55,35 @@ namespace Template.Api.Unit.Tests.Infrastructure.Repositories.Base
             }
         }
 
-        public class TheMethod_UpdateAsync : RepositoryTests
+        public class TheMethod_Update : RepositoryTests
         {
             [Fact]
-            public async Task Should_update_entity()
+            public void Should_update_entity()
             {
                 // Arrange
                 var entityToUpdate = new EntityTestClass { Id = 1 };
 
                 // Act
-                await Sut.UpdateAsync(entityToUpdate);
+                Sut.Update(entityToUpdate);
 
                 // Assert
-                Mock.Get(this.DbContext).Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+                Mock.Get(this.DbContext).Verify(x => x.Update(It.IsAny<EntityTestClass>()), Times.Once);
+            }
+        }
+
+        public class TheMethod_Add : RepositoryTests
+        {
+            [Fact]
+            public void Should_insert_entity()
+            {
+                // Arrange
+                var entityToInsert = new EntityTestClass { Id = 1 };
+
+                // Act
+                Sut.Add(entityToInsert);
+
+                // Assert
+                Mock.Get(this.DbContext).Verify(x => x.Add(It.IsAny<EntityTestClass>()), Times.Once);
             }
         }
     }

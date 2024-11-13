@@ -31,6 +31,7 @@ namespace Template.Api.Infrastructure.Filters
                                .WithStackTrace()
                                .WithSupportId()
                                .Build();
+
             IActionResult result = new JsonResult(exceptionMessage);
 
             if (exceptionHttpStatusCodes.ContainsKey(context.Exception.GetType()))

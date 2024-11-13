@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 
 using Template.Api.Infrastructure.Data;
 using Template.Api.Infrastructure.Exceptions.Builder;
+using Template.Api.Infrastructure.Repositories;
 using Template.Api.Infrastructure.Repositories.Base;
 
 namespace Template.Api.Infrastructure.Extensions
@@ -85,6 +86,7 @@ namespace Template.Api.Infrastructure.Extensions
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
+            services.AddTransient<ISampleRepository, SampleRepository>();
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
             return services;

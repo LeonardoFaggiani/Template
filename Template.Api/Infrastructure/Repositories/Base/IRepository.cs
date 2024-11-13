@@ -4,8 +4,8 @@ namespace Template.Api.Infrastructure.Repositories.Base
 {
     public interface IRepository<TEntity> where TEntity : Entity
     {
-        Task SaveAsync(TEntity entity);
+        void Add(TEntity entity);
         IQueryable<TEntity> All();
-        Task UpdateAsync(TEntity entity);
+        void Update(TEntity entity);
     }
 }

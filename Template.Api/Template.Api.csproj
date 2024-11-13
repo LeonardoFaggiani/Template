@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DocumentationFile>Template.Api.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +13,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.35" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.35" />
     <PackageReference Include="NetDevPack" Version="6.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
@@ -31,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domian\" />
+    <ProjectReference Include="..\Template.Api.Dto\Template.Api.Dto.csproj" />
   </ItemGroup>
 
 </Project>

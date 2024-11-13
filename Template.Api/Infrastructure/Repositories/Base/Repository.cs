@@ -26,21 +26,14 @@ namespace Template.Api.Infrastructure.Repositories.Base
             return dbEntity.AsNoTracking();
         }
 
-        public Task UpdateAsync(TEntity entity)
+        public void Update(TEntity entity)
         {
             this.Context.Update(entity);
-
-            return this.Context.SaveChangesAsync();
         }
 
-        public Task SaveAsync(TEntity entity)
+        public void Add(TEntity entity)
         {
-            if (this.Context.Entry(entity).State.Equals(EntityState.Detached))
-            {
-                this.Context.Set<TEntity>().Add(entity);
-            }
-
-            return this.Context.SaveChangesAsync();
+            this.Context.Add(entity);            
         }
     }
 }
