@@ -36,4 +36,8 @@
     <ProjectReference Include="..\Template.Api.Dto\Template.Api.Dto.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Domian\Events\Consumer\" />
+  </ItemGroup>
+
 </Project>

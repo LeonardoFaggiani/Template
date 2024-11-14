@@ -1,16 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
-
-using NetDevPack.Domain;
+﻿using NetDevPack.Domain;
 
 namespace Template.Api.Domian
 {
     public class Sample : Entity
     {
-        public Sample(string desciption)
+        public Sample(Guid id)
         {
-            this.Description = desciption;
+            Id = id;
         }
-
-        public string Description { get; }
     }
 }

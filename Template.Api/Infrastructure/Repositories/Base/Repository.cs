@@ -2,6 +2,7 @@
 
 using Microsoft.EntityFrameworkCore;
 
+using NetDevPack.Data;
 using NetDevPack.Domain;
 
 using Template.Api.Infrastructure.Data;
@@ -11,6 +12,7 @@ namespace Template.Api.Infrastructure.Repositories.Base
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
     {
         protected readonly TemplateContext Context;
+        public IUnitOfWork UnitOfWork => Context;
 
         public Repository(TemplateContext context)
         {

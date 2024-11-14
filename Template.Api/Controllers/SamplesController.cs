@@ -15,7 +15,7 @@ namespace Template.Api.Controllers
         { }
 
         /// <summary>
-        /// This is a sample of endpoint
+        /// This is a sample
         /// </summary>        
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>

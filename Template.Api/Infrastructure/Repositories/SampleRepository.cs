@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using NetDevPack.Data;
 
 using Template.Api.Domian;
 using Template.Api.Infrastructure.Data;
@@ -8,15 +7,14 @@ using Template.Api.Infrastructure.Repositories.Base;
 
 namespace Template.Api.Infrastructure.Repositories
 {
-    public interface ISampleRepository : Base.IRepository<Sample>
+    public interface ISampleRepository : IRepository<Sample>
     {
         Task<Sample> GetByIdAsync(int id);
     }
 
     public class SampleRepository : Repository<Sample>, ISampleRepository
     {
-        protected readonly DbSet<Sample> DbSet;
-        public IUnitOfWork UnitOfWork => Context;
+        protected readonly DbSet<Sample> DbSet;        
 
         public SampleRepository(TemplateContext context) : base(context)
         {
