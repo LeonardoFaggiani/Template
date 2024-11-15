@@ -1,11 +1,18 @@
 ﻿using System.Reflection;
+using System.Text;
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 
 using Template.Api.Infrastructure.Data;
 using Template.Api.Infrastructure.Exceptions.Builder;
+using Template.Api.Infrastructure.Filters;
+using Template.Api.Infrastructure.HealthChecks;
 using Template.Api.Infrastructure.Repositories;
 using Template.Api.Infrastructure.Repositories.Base;
 
@@ -106,5 +113,50 @@ namespace Template.Api.Infrastructure.Extensions
             return services;
         }
 
+        public static IServiceCollection AddAuthorization(this IServiceCollection services, IConfiguration configuration)
+        {            
+            var secret = configuration.GetSection("JwtOptions:Secret").Value;
+
+            services.AddMvcCore(opt =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+
+                opt.Filters.Add(typeof(CustomExceptionFilter));
+
+            })
+            .AddApiExplorer()
+            .AddDataAnnotations();            
+
+            services.AddCors();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secret)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
+            return services;
+        }
+
+        public static IApplicationBuilder UseHealthChecks(this IApplicationBuilder app)
+        {
+            app.UseHealthChecks("/health", new HealthCheckOptions
+            {
+                ResponseWriter = HealthCheckResponseWriter.Write
+            });
+            return app;
+        }
     }
 }

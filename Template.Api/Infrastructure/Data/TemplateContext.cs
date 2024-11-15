@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using NetDevPack.Data;
 using NetDevPack.Mediator;
 
+using Template.Api.Domian;
 using Template.Api.Infrastructure.Extensions;
 
 namespace Template.Api.Infrastructure.Data
@@ -32,5 +33,13 @@ namespace Template.Api.Infrastructure.Data
 
             return success;
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        {
+            // in memory database used for simplicity, change to a real db for production applications
+            options.UseInMemoryDatabase("templateApiBD");
+        }
+
+        public DbSet<Sample> Samples { get; set; }
     }
 }

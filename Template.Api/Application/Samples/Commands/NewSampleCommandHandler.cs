@@ -16,7 +16,7 @@ namespace Template.Api.Application.Samples.Commands
 
         protected override async Task Handle(NewSampleCommand command, CancellationToken cancellationToken)
         {
-            var sample = new Sample(command.request.Id);
+            var sample = new Sample(command.request.Id, command.request.Description);
 
             sample.AddDomainEvent(new SampleHasBeenInserted(sample.Id));
 
