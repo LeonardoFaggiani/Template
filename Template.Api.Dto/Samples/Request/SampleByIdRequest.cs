@@ -2,9 +2,8 @@
 
 namespace Template.Api.Dto.Samples.Request
 {
-    public class SampleRequest
+    public class SampleByIdRequest
     {
         public Guid Id { get; set; }
-        public string Description { get; set; }
     }
 }

@@ -1,14 +1,21 @@
 ﻿using System.Reflection;
 using System.Text;
 
+using MediatR;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 
+using NetDevPack.Mediator;
+
+using Template.Api.CrossCutting.Bus;
+using Template.Api.Domian.Events;
 using Template.Api.Infrastructure.Data;
 using Template.Api.Infrastructure.Exceptions.Builder;
 using Template.Api.Infrastructure.Filters;
@@ -108,7 +115,9 @@ namespace Template.Api.Infrastructure.Extensions
 
         public static IServiceCollection AddConnectionString(this IServiceCollection services)
         {
-            services.AddDbContext<TemplateContext>(options => { options.UseSqlServer("your-connection-string"); }, ServiceLifetime.Transient);
+            //In memory database used for simplicity, change to a real db for production applications
+            services.AddDbContext<TemplateContext>(options => { options.UseInMemoryDatabase("templateApiBD"); }, ServiceLifetime.Transient);
+            //services.AddDbContext<TemplateContext>(options => { options.UseSqlServer("your-connection-string"); }, ServiceLifetime.Transient);
 
             return services;
         }
@@ -146,6 +155,15 @@ namespace Template.Api.Infrastructure.Extensions
                     ValidateAudience = false
                 };
             });
+
+            return services;
+        }
+
+        public static IServiceCollection AddDomainEvents(this IServiceCollection services)
+        {
+            services.AddScoped<IMediatorHandler, InMemoryBus>();
+
+            services.AddScoped<INotificationHandler<SampleHasBeenInserted>, SampleEventHandler>();
 
             return services;
         }

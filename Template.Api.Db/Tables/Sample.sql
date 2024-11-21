@@ -7,7 +7,7 @@
 
 GO
 
-CREATE UNIQUE NONCLUSTERED INDEX [UK_Sample] ON [dbo].[Sample]
+CREATE UNIQUE NONCLUSTERED INDEX [UK_Sample_Description] ON [dbo].[Sample]
 (
 	[Description] ASC
 )

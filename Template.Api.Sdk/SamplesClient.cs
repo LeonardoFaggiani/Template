@@ -18,9 +18,19 @@ namespace Template.Api.Sdk
             this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
-        public async Task<SampleQueryResponse> GetAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<SampleQueryResponse> GetAsync(CancellationToken cancellationToken = default)
         {
-            return await httpClient.GetAsync<SampleQueryResponse>($"Sample?id={id}", cancellationToken);
+            return await httpClient.GetAsync<SampleQueryResponse>($"Samples", cancellationToken);
+        }
+
+        public async Task<SampleByIdQueryResponse> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await httpClient.GetAsync<SampleByIdQueryResponse>($"Samples/by-id?id={id}", cancellationToken);
+        }
+
+        public async Task PostSampleAsync(CancellationToken cancellationToken = default)
+        {
+            await httpClient.PostAsync($"Samples/new", null, cancellationToken);
         }
     }
 }

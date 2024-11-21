@@ -1,12 +1,14 @@
-﻿namespace Template.Api.Dto.Samples
+﻿using System.Collections.Generic;
+
+namespace Template.Api.Dto.Samples
 {
     public class SampleQueryResponse
     {
-        public SampleQueryResponse(int id)
+        public SampleQueryResponse(IEnumerable<SampleDto> samples)
         {
-            this.Id = id;
+            this.Samples = samples;
         }
 
-        public int Id { get; }
+        public IEnumerable<SampleDto> Samples { get; }
     }
 }

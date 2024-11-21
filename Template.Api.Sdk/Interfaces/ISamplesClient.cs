@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Template.Api.Dto.Samples;
@@ -8,8 +9,23 @@ namespace Template.Api.Sdk.Interfaces
     public interface ISamplesClient
     {
         /// <summary>
-        /// This is a sample
+        /// Get all samples
+        /// </summary>                
+        /// <param name="cancellationToken"></param>
+        Task<SampleQueryResponse> GetAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Get Sample by Id
         /// </summary>        
-        Task<SampleQueryResponse> GetAsync(int id, CancellationToken cancellationToken = default);
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        Task<SampleByIdQueryResponse> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Create a sample
+        /// </summary>        
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        Task PostSampleAsync(CancellationToken cancellationToken = default);
     }
 }

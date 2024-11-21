@@ -6,7 +6,7 @@ namespace Template.Api.Infrastructure.Repositories
 {
     public interface ISampleRepository : IRepository<Sample>
     {
-        Task<Sample> GetByIdAsync(int id);
+        Task<Sample> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     }
 
     public class SampleRepository : Repository<Sample>, ISampleRepository
@@ -15,9 +15,9 @@ namespace Template.Api.Infrastructure.Repositories
         public SampleRepository(TemplateContext context) : base(context)
         { }
 
-        public async Task<Sample> GetByIdAsync(int id)
+        public async Task<Sample> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            return await Context.Samples.FindAsync(id);
+            return await Context.Samples.FindAsync(id, cancellationToken);
         }
     }
 }

@@ -39,20 +39,20 @@ namespace Template.Api.Sdk.Unit.Tests
             }
         }
 
-        public class TheMethod_GetAsync : SamplesClientTests
+        public class TheMethod_GetByIdAsync : SamplesClientTests
         {
             [Fact]
             public async Task Should_call_its_httpClient_with_proper_url()
             {
                 // Arrange
-                var expected = new SampleQueryResponse(2);
+                var expected = new SampleByIdQueryResponse(Guid.NewGuid(), "test");
 
                 HandlerMock.SetupGetReturnValue(expected);
 
-                var expectedUri = $"{BaseAddress}Samples?id=1";
+                var expectedUri = $"{BaseAddress}Samples/by-id?id=5e832cf5-6934-485f-bd8a-207eb3eadc4c";
 
                 // Act
-                var result = await Sut.GetAsync(1, CancellationToken);
+                var result = await Sut.GetByIdAsync(new Guid("5e832cf5-6934-485f-bd8a-207eb3eadc4c"), CancellationToken);
 
                 // Assert
                 HandlerMock.VerifyCalledWithGetMethod(result, expected, expectedUri);

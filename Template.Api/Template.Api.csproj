@@ -9,7 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.3.2" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.36" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.36" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.36" />
@@ -36,10 +38,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Template.Api.Dto\Template.Api.Dto.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Domian\Events\Consumer\" />
   </ItemGroup>
 
 </Project>

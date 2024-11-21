@@ -4,9 +4,22 @@
         <name>Template.Api</name>
     </assembly>
     <members>
-        <member name="M:Template.Api.Controllers.SamplesController.GetAsync(Template.Api.Dto.Samples.Request.SampleRequest,System.Threading.CancellationToken)">
+        <member name="M:Template.Api.Controllers.SamplesController.GetAsync(System.Threading.CancellationToken)">
             <summary>
-            This is a sample
+            Get all samples
+            </summary>                
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Template.Api.Controllers.SamplesController.GetByIdAsync(Template.Api.Dto.Samples.Request.SampleByIdRequest,System.Threading.CancellationToken)">
+            <summary>
+            Get Sample by Id
+            </summary>        
+            <param name="request"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Template.Api.Controllers.SamplesController.PostSampleAsync(Template.Api.Dto.Samples.Request.CreateSampleRequest,System.Threading.CancellationToken)">
+            <summary>
+            Create a sample
             </summary>        
             <param name="request"></param>
             <param name="cancellationToken"></param>
