@@ -22,7 +22,7 @@ namespace Template.Api.Application.Samples.Queries
             Guard.IsNotNull(mapper, nameof(mapper));
 
             this.sampleRepository = sampleRepository;
-            this.sampleRepository = sampleRepository;
+            this.mapper = mapper;
         }
 
         public async Task<SampleByIdQueryResponse> Handle(SampleByIdQuery query, CancellationToken cancellationToken)

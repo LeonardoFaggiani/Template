@@ -2,14 +2,13 @@ using MediatR;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Template.Api.Application.Controllers.Base;
 using Template.Api.Application.Samples.Commands;
 using Template.Api.Application.Samples.Queries;
-using Template.Api.Controllers.Base;
 using Template.Api.Dto.Samples;
 using Template.Api.Dto.Samples.Request;
 
-namespace Template.Api.Controllers
+namespace Template.Api.Application.Controllers
 {
     public class SamplesController : ApiController
     {

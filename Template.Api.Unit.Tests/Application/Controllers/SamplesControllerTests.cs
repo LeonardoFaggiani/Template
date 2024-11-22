@@ -3,16 +3,15 @@
 using Microsoft.AspNetCore.Mvc;
 
 using Moq;
-
+using Template.Api.Application.Controllers;
 using Template.Api.Application.Samples.Commands;
 using Template.Api.Application.Samples.Queries;
-using Template.Api.Controllers;
 using Template.Api.Dto;
 using Template.Api.Dto.Samples;
 using Template.Api.Dto.Samples.Request;
 using Template.Api.Unit.Tests.Base;
 
-namespace Template.Api.Unit.Tests.Controllers
+namespace Template.Api.Unit.Tests.Application.Controllers
 {
     public class SamplesControllerTests : BaseTestClass<SamplesController>
     {
