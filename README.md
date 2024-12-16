@@ -1,1 +1,1 @@
-# CustomHexagonalTemplate
+# Template
