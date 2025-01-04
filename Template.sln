@@ -15,14 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Template.Api.Sdk.Unit.Tests
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Template.Api.Db", "Template.Api.Db\Template.Api.Db.sqlproj", "{C4AD8763-7D89-47BB-8785-E9C8FFEE383B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".template.config", ".template.config", "{953720BC-05EC-42E5-AE6D-39BAAB801733}"
-	ProjectSection(SolutionItems) = preProject
-		.template.config\template.json = .template.config\template.json
-	EndProjectSection
-	ProjectSection(FolderGlobals) = preProject
-		D_5_4source_4repos_4Template_4template_1json__JsonSchema = https://json.schemastore.org/template.json
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
