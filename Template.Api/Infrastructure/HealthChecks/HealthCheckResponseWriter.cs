@@ -1,14 +1,13 @@
-﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace Template.Api.Infrastructure.HealthChecks
 {
     public static class HealthCheckResponseWriter
     {
-        private static readonly Lazy<JsonSerializerSettings> options = new Lazy<JsonSerializerSettings>(() => CreateJsonOptions());
+        private static readonly Lazy<JsonSerializerOptions> options = new Lazy<JsonSerializerOptions>(() => CreateJsonOptions());
 
         public static async Task Write(HttpContext httpContext, HealthReport report)
         {
@@ -16,7 +15,7 @@ namespace Template.Api.Infrastructure.HealthChecks
             {
                 httpContext.Response.ContentType = "application/json";
                 HealthCheckReport value = new HealthCheckReport(report);
-                await httpContext.Response.WriteAsync(JsonConvert.SerializeObject(value, options.Value));
+                await httpContext.Response.WriteAsync(JsonSerializer.Serialize(value, options.Value));
             }
             else
             {
@@ -24,16 +23,16 @@ namespace Template.Api.Infrastructure.HealthChecks
             }
         }
 
-        private static JsonSerializerSettings CreateJsonOptions()
+        private static JsonSerializerOptions CreateJsonOptions()
         {
-            return new JsonSerializerSettings
+            return new JsonSerializerOptions
             {
-                ContractResolver = new DefaultContractResolver
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                Converters =
                 {
-                    NamingStrategy = new CamelCaseNamingStrategy()
-                },
-                NullValueHandling = NullValueHandling.Ignore,
-                Converters = { (JsonConverter)new StringEnumConverter() }
+                    new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+                }
             };
         }
     }

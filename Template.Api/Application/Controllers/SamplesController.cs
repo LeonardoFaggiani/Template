@@ -2,6 +2,7 @@ using MediatR;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using Template.Api.Application.Controllers.Base;
 using Template.Api.Application.Samples.Commands;
 using Template.Api.Application.Samples.Queries;
