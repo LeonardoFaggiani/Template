@@ -1,0 +1,54 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Capability for the main window",
+  "windows": [
+    "main"
+  ],
+  "permissions": [
+    "core:default",
+    "shell:allow-open",
+    "dialog:allow-open",
+    {
+      "identifier": "shell:allow-spawn",
+      "allow": [
+        {
+          "name": "exec-install-template",
+          "cmd": "powershell.exe",
+          "args": [
+            "-ExecutionPolicy",
+            "Bypass",
+            "-File",
+            {
+              "validator": ".+"
+            },
+            "-templateSource",
+            {
+              "validator": ".+"
+            },
+            "-projectName",
+            {
+              "validator": ".+"
+            },
+            "-framework",
+            {
+              "validator": ".+"
+            },
+            "-unitTest",
+            {
+              "validator": ".+"
+            },
+            "-proyectDb",
+            {
+              "validator": ".+"
+            },
+            "-sdk",
+            {
+              "validator": ".+"
+            } 
+          ]
+        }
+      ]
+    }
+  ]
+}
