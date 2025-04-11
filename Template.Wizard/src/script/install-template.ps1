@@ -8,7 +8,7 @@
 )
 
 if (-not $templateSource) {
-    Write-Host "❌ Debes proporcionar una fuente de template."
+    Write-Host "Debes proporcionar una fuente de template."
     exit 0
 }
 # Nombre del template y versión
@@ -28,12 +28,6 @@ if ($installedTemplates) {
 # Instalar desde NuGet.org
 Write-Output "Instalando el template '$templateName::$templateVersion' desde NuGet..."
 dotnet new install "$templateName::$templateVersion"
-
-# Verificar si la instalación fue exitosa
-if ($LASTEXITCODE -ne 0) {
-    Write-Error "❌ Falló la instalación del template."
-    exit 0
-}
 
 Write-Output "Creando proyecto '$projectName'..."
 

@@ -21,6 +21,7 @@ import { useState } from "react";
 import { Command } from "@tauri-apps/plugin-shell";
 import { open } from "@tauri-apps/plugin-dialog";
 import { Label } from "./components/ui/label";
+import { Loader2 } from "lucide-react";
 
 function App() {
   const items = [
@@ -43,6 +44,7 @@ function App() {
 
   const [projectName, setProjectName] = useState<string | null>("");
   const [createProyectProcess, setCreateProyectProcess] = useState<string | null>("");
+  const [isCreating, setIsCreating] = useState(false);
 
   const handleSelectFolder = async () => {
 
@@ -65,7 +67,7 @@ function App() {
       .string()
       .min(1, "Debes seleccionar una ruta para el proyecto"),
   
-    items: z.array(z.string()).min(1, "Debes seleccionar al menos un tipo de proyecto"),
+    items: z.array(z.string())
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -78,6 +80,7 @@ function App() {
   });
 
   async function onSubmit(data: z.infer<typeof formSchema>) {    
+    setIsCreating(true);
     await runCreateProyectScript(data.projectLocation, data.projectName, data.items);
   }
 
@@ -92,7 +95,7 @@ function App() {
     const testingProject = proyectItems.indexOf("unitTest") != -1
     const bdProject = proyectItems.indexOf("dataTools") != -1
     const sdkProyect = proyectItems.indexOf("sdk") != -1
-        
+
     const command = await Command.create(
       "exec-install-template",
       [
@@ -118,13 +121,18 @@ function App() {
 
     command.on("close", (data) => {
       if (data && data.code != 1) console.log("Oops something is wrong...");
+
+      if (data && data.code == 1) {
+        setIsCreating(false);
+        setCreateProyectProcess("");
+      }
     });
 
     command.stderr.on('data', (line) => {
       console.error(line)
     })
 
-    command.stdout.on("data", (line) => {      
+    command.stdout.on("data", (line) => {
       setCreateProyectProcess(line);
     });
 
@@ -182,12 +190,10 @@ function App() {
                 name="projectLocation"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor="projectLocation">
-                      Ruta del proyecto
-                    </FormLabel>
                     <FormControl>
                       <>
                         <Button
+                        className="w-full"
                           id="projectLocation"
                           type="button"
                           onClick={async () => {
@@ -201,7 +207,7 @@ function App() {
                             }
                           }}
                         >
-                          Seleccionar carpeta...
+                          Ruta del proyecto...
                         </Button>
                         {form.watch("projectLocation") && (
                           <p>
@@ -226,7 +232,7 @@ function App() {
                     <div className="mb-4 mt-5">
                       <FormDescription>
                         Selecciona los distintos tipos de proyectos para tu
-                        solución
+                        solución:
                       </FormDescription>
                     </div>
                     {items.map((item) => (
@@ -261,7 +267,17 @@ function App() {
               <div className="flex items-center space-x-2">
                 <Label htmlFor="terms">{createProyectProcess}</Label>
               </div>
-              <Button type="submit">Crear</Button>
+
+              <Button type="submit" className="w-full" disabled={isCreating}>
+              {isCreating ? (
+                <>
+                  <Loader2 className="animate-spin" />
+                  Creando...
+                </>
+              ) : (
+                "Crear"
+              )}
+            </Button>
             </form>            
           </Form>
         </div>
