@@ -20,10 +20,11 @@ import { Input } from "./components/ui/input";
 import { useState } from "react";
 import { Command } from "@tauri-apps/plugin-shell";
 import { open } from "@tauri-apps/plugin-dialog";
-import { Label } from "./components/ui/label";
+import { Progress } from "./components/ui/progress"
 import { Loader2 } from "lucide-react";
 
 function App() {
+
   const items = [
     {
       id: "unitTest",
@@ -38,12 +39,12 @@ function App() {
     {
       id: "sdk",
       label: "SDK",
-      description: "Incluye unit test."
+      description: "Include unit test proyect."
     },
   ] as const;
 
   const [projectName, setProjectName] = useState<string | null>("");
-  const [createProyectProcess, setCreateProyectProcess] = useState<string | null>("");
+  const [proyectProcess, setProyectProcess] = useState<number>(0);
   const [isCreating, setIsCreating] = useState(false);
 
   const handleSelectFolder = async () => {
@@ -60,12 +61,12 @@ function App() {
   const formSchema = z.object({
     projectName: z
       .string()
-      .min(1, "El nombre del proyecto es obligatorio")
-      .max(50, "El nombre no puede tener más de 50 caracteres"),
+      .min(1, "Name is required")
+      .max(50, "Please use 20 characters or less for the name."),
   
     projectLocation: z
       .string()
-      .min(1, "Debes seleccionar una ruta para el proyecto"),
+      .min(1, "Please select a location for the project."),
   
     items: z.array(z.string())
   });
@@ -79,8 +80,8 @@ function App() {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof formSchema>) {    
-    setIsCreating(true);
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    setIsCreating(true); 
     await runCreateProyectScript(data.projectLocation, data.projectName, data.items);
   }
 
@@ -120,20 +121,36 @@ function App() {
     );
 
     command.on("close", (data) => {
-      if (data && data.code != 1) console.log("Oops something is wrong...");
+      if (data && data.code != 1) {
+
+        toast.error("Erro!", {          
+          description: `Oops something is wrong...`,
+          action: {
+            label: "Close",        
+            onClick: () => console.log("closed"),
+          },
+        }); 
+
+        console.log("Oops something is wrong...")
+      };
 
       if (data && data.code == 1) {
         setIsCreating(false);
-        setCreateProyectProcess("");
+        setProyectProcess(100);
+
+        toast.success("Successfully!", {          
+          description: `The proyect ${proyectName} has been created.`,
+          action: {
+            label: "Close",        
+            onClick: () => console.log("closed"),
+          },
+        }); 
+
       }
     });
 
-    command.stderr.on('data', (line) => {
-      console.error(line)
-    })
-
-    command.stdout.on("data", (line) => {
-      setCreateProyectProcess(line);
+    command.stdout.on("data", (proccess) => {
+      setProyectProcess(parseInt(proccess));
     });
 
     await command.spawn();
@@ -156,22 +173,18 @@ function App() {
       <Toaster />
       <div className="h-screen w-screen flex justify-center p-4">
         <div className="p-8 rounded-2xl max-w-md w-full">
-
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-
               <FormField
                 control={form.control}
                 name="projectName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor="projectName">
-                      Nombre del proyecto
-                    </FormLabel>
+                    <FormLabel htmlFor="projectName">Proyect name</FormLabel>
                     <FormControl>
                       <Input
                         id="projectName"
-                        placeholder="MiProyecto"
+                        placeholder="MyProyect"
                         {...field}
                         value={projectName}
                         onChange={(e) => {
@@ -193,7 +206,7 @@ function App() {
                     <FormControl>
                       <>
                         <Button
-                        className="w-full"
+                          className="w-full"
                           id="projectLocation"
                           type="button"
                           onClick={async () => {
@@ -207,12 +220,12 @@ function App() {
                             }
                           }}
                         >
-                          Ruta del proyecto...
+                          Proyect location...
                         </Button>
                         {form.watch("projectLocation") && (
                           <p>
-                            {form.watch("projectLocation")}
-                            \<i className="proyect-name-highlight">
+                            {form.watch("projectLocation")}\
+                            <i className="proyect-name-highlight">
                               {form.watch("projectName")}
                             </i>
                           </p>
@@ -231,8 +244,8 @@ function App() {
                   <FormItem>
                     <div className="mb-4 mt-5">
                       <FormDescription>
-                        Selecciona los distintos tipos de proyectos para tu
-                        solución:
+                        Select which project types you want to add to your
+                        solution
                       </FormDescription>
                     </div>
                     {items.map((item) => (
@@ -265,20 +278,19 @@ function App() {
                 )}
               />
               <div className="flex items-center space-x-2">
-                <Label htmlFor="terms">{createProyectProcess}</Label>
+                <Progress className="w-full" hidden={!isCreating} value={proyectProcess} />
               </div>
-
               <Button type="submit" className="w-full" disabled={isCreating}>
-              {isCreating ? (
-                <>
-                  <Loader2 className="animate-spin" />
-                  Creando...
-                </>
-              ) : (
-                "Crear"
-              )}
-            </Button>
-            </form>            
+                {isCreating ? (
+                  <>
+                    <Loader2 className="animate-spin" />
+                    Working...
+                  </>
+                ) : (
+                  "Create"
+                )}
+              </Button>
+            </form>
           </Form>
         </div>
       </div>

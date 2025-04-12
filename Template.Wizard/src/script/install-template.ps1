@@ -7,56 +7,75 @@
     [string]$sdk
 )
 
-if (-not $templateSource) {
-    Write-Host "Debes proporcionar una fuente de template."
-    exit 0
-}
 # Nombre del template y versión
 $templateName = "Custom.Hexagonal.Template"
 $templateVersion = "1.0.5"
+$totalSteps = 7
+$currentStep = 0
+
+function Emit-Progress {
+    param ([int]$step, [int]$total)
+    $percent = [math]::Round(($step / $total) * 100)
+    Write-Output $percent
+}
+
+$currentStep++
+Emit-Progress -step $currentStep -total $totalSteps
 
 # Verificar si el template ya está instalado
 $installedTemplates = dotnet new --list | Out-String | findstr "Custom.Hexagonal.Template"
 
 if ($installedTemplates) {
-    Write-Output "El template '$templateName' ya está instalado. Desinstalando..."
-    dotnet new uninstall $templateName | Out-Null
-} else {
-    Write-Output "El template '$templateName' no está instalado."
+    $output = dotnet new uninstall $templateName | Out-Null
 }
 
 # Instalar desde NuGet.org
-Write-Output "Instalando el template '$templateName::$templateVersion' desde NuGet..."
-dotnet new install "$templateName::$templateVersion"
+$currentStep++
+Emit-Progress -step $currentStep -total $totalSteps
 
-Write-Output "Creando proyecto '$projectName'..."
+$output = dotnet new install "$templateName::$templateVersion"
 
-dotnet new CustomTemplate -o "$templateSource" -n "$projectName" --Framework "$framework" --IncludeSdk $sdk --IncludeDataTool $proyectDb --IncludeUnitTests $unitTest
+$currentStep++
+Emit-Progress -step $currentStep -total $totalSteps
+
+$output = dotnet new CustomTemplate -o "$templateSource" -n "$projectName" --Framework "$framework" --IncludeSdk $sdk --IncludeDataTool $proyectDb --IncludeUnitTests $unitTest
 
 # Se elimina proyecto de packaging, esta excluido en el template.config pero por algun motivo el proyecto
 # queda asociado en la sln, la mejor forma que se encontro es eliminar la referencia del proyecto en la sln.
+$currentStep++
+Emit-Progress -step $currentStep -total $totalSteps
+
 $removePackagingProject = "$projectName.Packaging\Custom.Hexagonal.$projectName\Custom.Hexagonal.$projectName.csproj"
 
 Set-Location "$templateSource"
 
-dotnet sln "$projectName.sln" remove $removePackagingProject
+$output = dotnet sln "$projectName.sln" remove $removePackagingProject
 
 if ($sdk -ne $true) {
+    $currentStep++
+    Emit-Progress -step $currentStep -total $totalSteps    
+
     $removeSdkUnitTestProject = "$projectName.Api.Sdk.Unit.Tests\$projectName.Api.Sdk.Unit.Tests.csproj"
     $removeSdkroject = "$projectName.Api.Sdk\$projectName.Api.Sdk.csproj"
 
-    dotnet sln "$projectName.sln" remove $removeSdkUnitTestProject
-    dotnet sln "$projectName.sln" remove $removeSdkroject
+    $output = dotnet sln "$projectName.sln" remove $removeSdkUnitTestProject
+    $output = dotnet sln "$projectName.sln" remove $removeSdkroject
 }
 
 if ($proyectDb -ne $true) {
+    $currentStep++
+    Emit-Progress -step $currentStep -total $totalSteps
+
     $removeDataBaseProject = "$projectName.Api.Db\$projectName.Api.Db.sqlproj"
-    dotnet sln "$projectName.sln" remove $removeDataBaseProject
+    $output = dotnet sln "$projectName.sln" remove $removeDataBaseProject
 }
 
 if ($unitTest -ne $true) {
+    $currentStep++
+    Emit-Progress -step $currentStep -total $totalSteps
+
     $removeUnitTestsProject = "$projectName.Api.Unit.Tests\$projectName.Api.Unit.Tests.csproj"
-    dotnet sln "$projectName.sln" remove $removeUnitTestsProject
+    $output = dotnet sln "$projectName.sln" remove $removeUnitTestsProject
 }
 
 exit 1

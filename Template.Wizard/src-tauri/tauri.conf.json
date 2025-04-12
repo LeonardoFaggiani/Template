@@ -3,6 +3,7 @@
   "productName": "templatewizard",
   "version": "0.1.0",
   "identifier": "com.templatewizard.app",
+  
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
@@ -12,15 +13,18 @@
   "app": {
     "windows": [
       {
-        "title": "templatewizard",
-        "width": 800,
-        "height": 600
+        "resizable": false,
+        "title": "Desktop Wizard",
+        "width": 400,
+        "height": 550,
+        "maximizable": false,
+        "minimizable": false
       }
     ],
     "security": {
       "csp": null
-    }
-  },
+    }    
+  },  
   "bundle": {
     "active": true,
     "targets": "all",
@@ -31,5 +35,5 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ]
-  }
+  }  
 }
