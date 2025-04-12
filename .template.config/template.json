@@ -2,15 +2,15 @@
   "$schema": "http://json.schemastore.org/template",
   "author": "Leonardo Faggiani",
   "classifications": [ "Web", "API", "WebAPI" ],
-  "identity": "Custom.Hexagonal.Template",
-  "name": "Custom Hexagonal Template .NET",
-  "shortName": "CustomTemplate",
+  "identity": "Custom.Api.Template",
+  "name": "Custom Api Template .NET",
+  "shortName": "CustomApiTemplate",
   "tags": {
     "language": "C#",
     "type": "solution"
   },
   "sourceName": "Template",
-  "description": "This is a sample how to create a custom template in .NET",
+  "description": "Sample package for creating APIs using a custom .NET template.",
   "symbols": {
     "Framework": {
       "type": "parameter",
@@ -38,23 +38,20 @@
       "type": "parameter",
       "datatype": "bool",
       "defaultValue": "true",
-      "displayName": "Unit tests",
-      "description": "Agrega proyecto de Unit tests de la Api."
+      "displayName": "Unit tests"
 
     },
     "IncludeSdk": {
       "type": "parameter",
       "datatype": "bool",
       "defaultValue": "false",
-      "displayName": "Sdk",
-      "description": "Agrega proyecto SDK y su correspondiente proyecto de Unit tests."
+      "displayName": "Sdk"
     },
     "IncludeDataTool": {
       "type": "parameter",
       "datatype": "bool",
       "defaultValue": "false",
-      "displayName": "DataTools",
-      "description": "Agrega proyecto de base de datos (SSDT)."
+      "displayName": "DataTools"
     }
   },
   "sources": [
@@ -74,7 +71,7 @@
         },
         {
           "condition": "(!IncludeDataTool)",
-          "exclude": [ "Template.Api.Db/**/*"]
+          "exclude": [ "Template.Api.Db/**/*" ]
         },
         {
           "exclude": [ ".vs/**", ".template.config/**", ".git/**" ]

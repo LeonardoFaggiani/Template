@@ -8,8 +8,8 @@
 )
 
 # Nombre del template y versión
-$templateName = "Custom.Hexagonal.Template"
-$templateVersion = "1.0.5"
+$templateName = "Custom.Api.Template"
+$templateVersion = "1.0.0"
 $totalSteps = 7
 $currentStep = 0
 
@@ -23,7 +23,7 @@ $currentStep++
 Emit-Progress -step $currentStep -total $totalSteps
 
 # Verificar si el template ya está instalado
-$installedTemplates = dotnet new --list | Out-String | findstr "Custom.Hexagonal.Template"
+$installedTemplates = dotnet new --list | Out-String | findstr "Custom.Api.Template"
 
 if ($installedTemplates) {
     $output = dotnet new uninstall $templateName | Out-Null
@@ -38,14 +38,14 @@ $output = dotnet new install "$templateName::$templateVersion"
 $currentStep++
 Emit-Progress -step $currentStep -total $totalSteps
 
-$output = dotnet new CustomTemplate -o "$templateSource" -n "$projectName" --Framework "$framework" --IncludeSdk $sdk --IncludeDataTool $proyectDb --IncludeUnitTests $unitTest
+$output = dotnet new CustomApiTemplate -o "$templateSource" -n "$projectName" --Framework "$framework" --IncludeSdk $sdk --IncludeDataTool $proyectDb --IncludeUnitTests $unitTest
 
 # Se elimina proyecto de packaging, esta excluido en el template.config pero por algun motivo el proyecto
 # queda asociado en la sln, la mejor forma que se encontro es eliminar la referencia del proyecto en la sln.
 $currentStep++
 Emit-Progress -step $currentStep -total $totalSteps
 
-$removePackagingProject = "$projectName.Packaging\Custom.Hexagonal.$projectName\Custom.Hexagonal.$projectName.csproj"
+$removePackagingProject = "$projectName.Packaging\Custom.Api.$projectName\Custom.Api.$projectName.csproj"
 
 Set-Location "$templateSource"
 

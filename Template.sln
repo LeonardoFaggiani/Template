@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Template.Api.Sdk.Unit.Tests
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Template.Packaging", "Template.Packaging", "{636ABCE7-1A99-436E-B232-4383C9A39503}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Custom.Hexagonal.Template", "Template.Packaging\Custom.Hexagonal.Template\Custom.Hexagonal.Template.csproj", "{2F249CFA-C7A3-4A70-8850-6EDB29428BDF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Custom.Api.Template", "Template.Packaging\Custom.Api.Template\Custom.Api.Template.csproj", "{2F249CFA-C7A3-4A70-8850-6EDB29428BDF}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Template.Api.Db", "Template.Api.Db\Template.Api.Db.sqlproj", "{C4AD8763-7D89-47BB-8785-E9C8FFEE383B}"
 EndProject
