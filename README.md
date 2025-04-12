@@ -10,7 +10,7 @@ With the `Custom API Template`, you can consistently generate the same clean and
 It can be used via the dotnet CLI or through a UI to make the experience more user-friendly. 😉
 
 ## Give a Star! ⭐
-If you liked the project or if JustAnotherLobby helped you, please give a star ;)
+If you liked the project or if `Custom API Template` helped you, please give a star 😉
 
 # Installation
 
