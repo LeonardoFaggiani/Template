@@ -1,6 +1,5 @@
 import "./App.css";
 import { Button } from "./components/ui/button";
-import { ThemeProvider } from "./create-project/components/theme-provider";
 import {
   Form,
   FormControl,
@@ -18,44 +17,70 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { Input } from "./components/ui/input";
 import { useState } from "react";
-import { Command } from "@tauri-apps/plugin-shell";
-import { open } from "@tauri-apps/plugin-dialog";
-import { Progress } from "./components/ui/progress"
-import { Loader2 } from "lucide-react";
+import { open as openDialog } from "@tauri-apps/plugin-dialog";
+import { Command as CommandDotNet } from "@tauri-apps/plugin-shell";
+import { Progress } from "./components/ui/progress";
+import { Loader2, Check, ChevronsUpDown } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "./components/ui/popover";
+
+import {
+  Command,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+} from "./components/ui/command";
+import { cn } from "./lib/utils";
 
 function App() {
-
   const items = [
     {
       id: "unitTest",
       label: "Unit Tests",
-      description: null
+      description: null,
     },
     {
       id: "dataTools",
       label: "Database (SSDT)",
-      description: null
+      description: null,
     },
     {
       id: "sdk",
       label: "SDK",
-      description: "Include unit test proyect."
+      description: "Include unit test proyect.",
+    },
+  ] as const;
+
+  const frameworks = [
+    {
+      value: "net6.0",
+      label: "NET 6",
+    },
+    {
+      value: "net7.0",
+      label: "NET 7",
+    },
+    {
+      value: "net8.0",
+      label: "NET 8",
     },
   ] as const;
 
   const [projectName, setProjectName] = useState<string | null>("");
   const [proyectProcess, setProyectProcess] = useState<number>(0);
   const [isCreating, setIsCreating] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleSelectFolder = async () => {
-
-    const selectedPath = await open({
+    const selectedPath = await openDialog({
       directory: true,
       multiple: false,
     });
 
-    if (typeof selectedPath === "string")
-        return selectedPath;
+    if (typeof selectedPath === "string") return selectedPath;
   };
 
   const formSchema = z.object({
@@ -63,41 +88,48 @@ function App() {
       .string()
       .min(1, "Name is required")
       .max(50, "Please use 20 characters or less for the name."),
-  
+
     projectLocation: z
       .string()
       .min(1, "Please select a location for the project."),
-  
-    items: z.array(z.string())
+
+    items: z.array(z.string()),
+    frameworkVersion: z.string().min(1, "Framework is required"),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      projectName:"",
-      projectLocation:"",
-      items: []
+      projectName: "",
+      projectLocation: "",
+      items: [],
+      frameworkVersion: "",
     },
   });
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
-    setIsCreating(true); 
-    await runCreateProyectScript(data.projectLocation, data.projectName, data.items);
+    setIsCreating(true);
+    await runCreateProyectScript(
+      data.projectLocation,
+      data.projectName,
+      data.items,
+      data.frameworkVersion
+    );
   }
 
   async function runCreateProyectScript(
     installationTemplatePath: string,
     proyectName: string,
-    proyectItems:Array<string>
+    proyectItems: Array<string>,
+    frameworkVersion:string
   ) {
-
     const scriptTemplatePath = "../src/script/install-template.ps1";
 
-    const testingProject = proyectItems.indexOf("unitTest") != -1
-    const bdProject = proyectItems.indexOf("dataTools") != -1
-    const sdkProyect = proyectItems.indexOf("sdk") != -1
+    const testingProject = proyectItems.indexOf("unitTest") != -1;
+    const bdProject = proyectItems.indexOf("dataTools") != -1;
+    const sdkProyect = proyectItems.indexOf("sdk") != -1;
 
-    const command = await Command.create(
+    const command = await CommandDotNet.create(
       "exec-install-template",
       [
         "-ExecutionPolicy",
@@ -109,43 +141,41 @@ function App() {
         "-projectName",
         `${proyectName}`,
         "-framework",
-        `${"net6.0"}`,
+        `${frameworkVersion}`,
         "-unitTest",
         `${testingProject}`,
         "-proyectDb",
         `${bdProject}`,
         "-sdk",
-        `${sdkProyect}`
+        `${sdkProyect}`,
       ],
       { encoding: "utf8" }
     );
 
     command.on("close", (data) => {
       if (data && data.code != 1) {
-
-        toast.error("Erro!", {          
+        toast.error("Erro!", {
           description: `Oops something is wrong...`,
           action: {
-            label: "Close",        
+            label: "Close",
             onClick: () => console.log("closed"),
           },
-        }); 
+        });
 
-        console.log("Oops something is wrong...")
-      };
+        console.log("Oops something is wrong...");
+      }
 
       if (data && data.code == 1) {
         setIsCreating(false);
         setProyectProcess(100);
 
-        toast.success("Successfully!", {          
+        toast.success("Successfully!", {
           description: `The proyect ${proyectName} has been created.`,
           action: {
-            label: "Close",        
+            label: "Close",
             onClick: () => console.log("closed"),
           },
-        }); 
-
+        });
       }
     });
 
@@ -169,7 +199,7 @@ function App() {
   };
 
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <>
       <Toaster />
       <div className="h-screen w-screen flex justify-center p-4">
         <div className="p-8 rounded-2xl max-w-md w-full">
@@ -239,6 +269,66 @@ function App() {
 
               <FormField
                 control={form.control}
+                name="frameworkVersion"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Framework Version</FormLabel>
+                    <Popover open={open} onOpenChange={setOpen}>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            aria-expanded={open}
+                            className="w-[200px] justify-between"
+                          >
+                            {field.value
+                              ? frameworks.find((f) => f.value === field.value)
+                                  ?.label
+                              : "Select framework..."}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-[200px] p-0">
+                        <Command>
+                          <CommandList>
+                            <CommandGroup>
+                              {frameworks.map((framework) => {
+                                const isSelected =
+                                  field.value === framework.value;
+                                return (
+                                  <CommandItem
+                                    key={framework.value}
+                                    value={framework.value}
+                                    onSelect={() => {
+                                      form.setValue(
+                                        "frameworkVersion",
+                                        framework.value,
+                                        { shouldValidate: true }
+                                      );
+                                      setOpen(false);
+                                    }}
+                                  >
+                                    {framework.label}
+                                    <Check
+                                      style={{ opacity: isSelected ? 1 : 0 }}
+                                      className={cn("ml-auto h-4 w-4")}
+                                    />
+                                  </CommandItem>
+                                );
+                              })}
+                            </CommandGroup>
+                          </CommandList>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="items"
                 render={() => (
                   <FormItem>
@@ -278,7 +368,11 @@ function App() {
                 )}
               />
               <div className="flex items-center space-x-2">
-                <Progress className="w-full" hidden={!isCreating} value={proyectProcess} />
+                <Progress
+                  className="w-full"
+                  hidden={!isCreating}
+                  value={proyectProcess}
+                />
               </div>
               <Button type="submit" className="w-full" disabled={isCreating}>
                 {isCreating ? (
@@ -294,7 +388,7 @@ function App() {
           </Form>
         </div>
       </div>
-    </ThemeProvider>
+    </>
   );
 }
 
