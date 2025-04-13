@@ -45,5 +45,5 @@ You can download the Windows installer from the Release page
 
 You choose the project name, the location where you want to create it, and the different types of projects to include in your solution.
 <p align="center">
-  <img src="https://leofstorage.blob.core.windows.net/customapitemplate/CustomApiTemplateUI.jpg" width="400"/>
+  <img src="CustomApiTemplateUI.jpg"/>
 </p>
