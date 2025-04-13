@@ -25,6 +25,7 @@ Parameters:
 > ⚠️ *Make sure the selected .NET framework is already installed on your machine.*
 - --IncludeSdk Includes an SDK project in the solution.
 - --IncludeDataTool Includes a SQL Server Data Tools (SSDT) database project.
+> ⚠️ *If you include SSDT proyect, you must have `.NET Framework 4.8.1` installed.*
 - --IncludeUnitTests Includes a Unit Test project.
 
 **🛠️ Template Parameters**
