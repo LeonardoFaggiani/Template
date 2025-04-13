@@ -39,9 +39,9 @@ https://learn.microsoft.com/es-es/dotnet/core/tools/dotnet
 
 ### UI
 
-You can download the Windows installer from the Release page
+You can download the Windows installer from the Release section
 
-📥 https://github.com/LeonardoFaggiani/Template/releases/tag/installer
+📥 [Release 1.0.1](https://github.com/LeonardoFaggiani/Template/releases/tag/1.0.1)
 
 You choose the project name, the location where you want to create it, and the different types of projects to include in your solution.
 <p align="center">
