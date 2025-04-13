@@ -38,6 +38,11 @@ dotnet new CustomApiTemplate -o "C://Example" -n "ProyectName" --Framework "net8
 https://learn.microsoft.com/es-es/dotnet/core/tools/dotnet
 
 ### UI
+
+You can download the Windows installer from the Release page
+
+📥 https://github.com/LeonardoFaggiani/Template/releases/tag/installer
+
 You choose the project name, the location where you want to create it, and the different types of projects to include in your solution.
 <p align="center">
   <img src="https://leofstorage.blob.core.windows.net/customapitemplate/CustomApiTemplateUI.jpg" width="400"/>
