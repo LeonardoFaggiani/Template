@@ -3,7 +3,7 @@
     [string]$projectName,
     [string]$framework,
     [string]$unitTest,
-    [string]$proyectDb,
+    [string]$projectDb,
     [string]$sdk
 )
 
@@ -38,7 +38,7 @@ $output = dotnet new install "$templateName::$templateVersion"
 $currentStep++
 Emit-Progress -step $currentStep -total $totalSteps
 
-$output = dotnet new CustomApiTemplate -o "$templateSource" -n "$projectName" --Framework "$framework" --IncludeSdk $sdk --IncludeDataTool $proyectDb --IncludeUnitTests $unitTest
+$output = dotnet new CustomApiTemplate -o "$templateSource" -n "$projectName" --Framework "$framework" --IncludeSdk $sdk --IncludeDataTool $projectDb --IncludeUnitTests $unitTest
 
 # Se elimina proyecto de packaging, esta excluido en el template.config pero por algun motivo el proyecto
 # queda asociado en la sln, la mejor forma que se encontro es eliminar la referencia del proyecto en la sln.
@@ -62,7 +62,7 @@ if ($sdk -ne $true) {
     $output = dotnet sln "$projectName.sln" remove $removeSdkroject
 }
 
-if ($proyectDb -ne $true) {
+if ($projectDb -ne $true) {
     $currentStep++
     Emit-Progress -step $currentStep -total $totalSteps
 

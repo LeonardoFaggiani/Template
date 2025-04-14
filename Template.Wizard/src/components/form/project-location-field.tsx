@@ -37,7 +37,7 @@ export function ProjectLocationField({ form }: ProjectLocationFieldProps) {
       return (
         <p className="text-sm text-muted-foreground">
           {projectLocation}\
-          <span className="proyect-name-highlight">{projectName}</span>
+          <span className="project-name-highlight">{projectName}</span>
         </p>
       );
     }

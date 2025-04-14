@@ -6,13 +6,13 @@ import { z } from "zod";
 
 export function useCreateProject(form: UseFormReturn<z.infer<any>>) {
   const [isCreating, setIsCreating] = useState(false);
-  const [proyectProcess, setProyectProcess] = useState(0);
+  const [projectProcess, setProjectProcess] = useState(0);
 
   async function runScript(data: z.infer<any>) {
     const { projectLocation, projectName, items, frameworkVersion } = data;
     const testingProject = items.includes("unitTest");
     const bdProject = items.includes("dataTools");
-    const sdkProyect = items.includes("sdk");
+    const sdkProject = items.includes("sdk");
 
     const scriptTemplatePath = "../src/script/install-template.ps1";
 
@@ -23,13 +23,13 @@ export function useCreateProject(form: UseFormReturn<z.infer<any>>) {
       "-projectName", projectName,
       "-framework", frameworkVersion,
       "-unitTest", `${testingProject}`,
-      "-proyectDb", `${bdProject}`,
-      "-sdk", `${sdkProyect}`,
+      "-projectDb", `${bdProject}`,
+      "-sdk", `${sdkProject}`,
     ]);
 
     command.on("close", (data) => {
       setIsCreating(false);
-      setProyectProcess(100);
+      setProjectProcess(100);
 
       if (data.code === 1) {
         toast.success("Project created successfully", {
@@ -42,7 +42,7 @@ export function useCreateProject(form: UseFormReturn<z.infer<any>>) {
       }
     });
 
-    command.stdout.on("data", (d) => setProyectProcess(parseInt(d)));
+    command.stdout.on("data", (d) => setProjectProcess(parseInt(d)));
 
     await command.spawn();
   }
@@ -52,5 +52,5 @@ export function useCreateProject(form: UseFormReturn<z.infer<any>>) {
     await runScript(data);
   }
 
-  return { onSubmit, isCreating, proyectProcess };
+  return { onSubmit, isCreating, projectProcess };
 }

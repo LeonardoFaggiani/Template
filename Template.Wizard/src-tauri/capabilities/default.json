@@ -38,17 +38,18 @@
             {
               "validator": ".+"
             },
-            "-proyectDb",
+            "-projectDb",
             {
               "validator": ".+"
             },
             "-sdk",
             {
               "validator": ".+"
-            } 
+            }
           ]
         }
       ]
-    }
+    },
+    "fs:default"
   ]
 }

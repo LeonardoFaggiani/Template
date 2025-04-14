@@ -14,7 +14,7 @@
 }
 
 @layer utilities {
-  .proyect-name-highlight {
+  .project-name-highlight {
     color: hsl(201 100% 65% / 1);
   }
 }
