@@ -30,6 +30,11 @@ If you liked the project or if `Custom API Template` helped you, please give a s
 
 ### Command
 
+**🔧 Install Nuget Package**
+
+```bash
+dotnet new install Custom.Api.Template::1.0.0
+```
 Parameters:
 
 - -o Location where the generated output will be placed.
