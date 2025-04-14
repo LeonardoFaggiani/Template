@@ -56,7 +56,7 @@ dotnet new CustomApiTemplate -o "C://Example" -n "ProyectName" --Framework "net8
 **Mas información DotNet CLI:**
 https://learn.microsoft.com/es-es/dotnet/core/tools/dotnet
 
-### UI
+### UI (Recommended)
 
 You can download the Windows installer from the Release section
 
