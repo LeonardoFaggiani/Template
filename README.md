@@ -9,6 +9,20 @@ With the `Custom API Template`, you can consistently generate the same clean and
 
 It can be used via the dotnet CLI or through a UI to make the experience more user-friendly. 😉
 
+# Available Scripts
+In the directory `Template.Wizard` run the following scripts:
+```bash
+npm run build:css
+```
+```bash
+npm run tauri dev
+```
+If you want to create the installer just run:
+```bash
+npm run build
+```
+You can find the installer in `Template.Wizard\src-tauri\target\release\bundle`
+
 ## Give a Star! ⭐
 If you liked the project or if `Custom API Template` helped you, please give a star 😉
 
