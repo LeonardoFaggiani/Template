@@ -33,7 +33,7 @@ If you liked the project or if `Custom API Template` helped you, please give a s
 **🔧 Install Nuget Package**
 
 ```bash
-dotnet new install Custom.Api.Template::1.0.0
+dotnet new install Custom.Api.Template::1.0.2
 ```
 Parameters:
 
@@ -46,10 +46,12 @@ Parameters:
 - --IncludeDataTool Includes a SQL Server Data Tools (SSDT) database project.
 > ⚠️ *If you include SSDT proyect, you must have `.NET Framework 4.8.1` installed.*
 - --IncludeUnitTests Includes a Unit Test project.
+- --Swagger Adds Swagger support to the project.
+- --HealthChecks Adds HealthChecks support to the project
 
 **🛠️ Template Parameters**
 ```bash
-dotnet new CustomApiTemplate -o "C://Example" -n "ProyectName" --Framework "net8.0" --IncludeSdk true --IncludeDataTool true --IncludeUnitTests true
+dotnet new CustomApiTemplate -o "C://Example" -n "ProyectName" --Framework "net8.0" --IncludeSdk true --IncludeDataTool true --IncludeUnitTests true --Swagger true --HealthChecks true
 ```
 
     
@@ -60,7 +62,7 @@ https://learn.microsoft.com/es-es/dotnet/core/tools/dotnet
 
 You can download the Windows installer from the Release section
 
-📥 [Release 1.0.1](https://github.com/LeonardoFaggiani/Template/releases/tag/1.0.1)
+📥 [Release 1.0.3](https://github.com/LeonardoFaggiani/Template/releases/tag/1.0.3)
 
 You choose the project name, the location where you want to create it, and the different types of projects to include in your solution.
 <p align="center">

@@ -1,18 +1,21 @@
 import { useState } from "react";
-import { Command } from "@tauri-apps/plugin-shell";
+import { Command, TerminatedPayload } from "@tauri-apps/plugin-shell";
 import { toast } from "sonner";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
+import { ErrorMessageMappings } from "../lib/utils";
 
 export function useCreateProject(form: UseFormReturn<z.infer<any>>) {
   const [isCreating, setIsCreating] = useState(false);
   const [projectProcess, setProjectProcess] = useState(0);
 
   async function runScript(data: z.infer<any>) {
-    const { projectLocation, projectName, items, frameworkVersion } = data;
+    const { projectLocation, projectName, items, frameworkVersion, features } = data;
     const testingProject = items.includes("unitTest");
     const bdProject = items.includes("dataTools");
     const sdkProject = items.includes("sdk");
+    const swagger = features.includes("swagger");
+    const healthChecks = features.includes("healthChecks");
 
     const scriptTemplatePath = "../src/script/install-template.ps1";
 
@@ -25,19 +28,22 @@ export function useCreateProject(form: UseFormReturn<z.infer<any>>) {
       "-unitTest", `${testingProject}`,
       "-projectDb", `${bdProject}`,
       "-sdk", `${sdkProject}`,
+      "-swagger", `${swagger}`,
+      "-healthChecks", `${healthChecks}`
     ]);
 
-    command.on("close", (data) => {
+    command.on("close", (data:TerminatedPayload) => {
       setIsCreating(false);
       setProjectProcess(100);
 
       if (data.code === 1) {
         toast.success("Project created successfully", {
           description: `The project ${projectName} has been created.`,
+          action: () => {}
         });
       } else {
         toast.error("Error", {
-          description: `Something went wrong.`,
+          description: ErrorMessageMappings(data.code),
         });
       }
     });
