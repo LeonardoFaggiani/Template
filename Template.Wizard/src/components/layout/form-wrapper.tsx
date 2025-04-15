@@ -1,12 +1,12 @@
 import { Form } from "../../components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { formSchema } from "../../lib/form-schema";
+import { features, formSchema, projects } from "../../lib/form-schema";
 import { useCreateProject } from "../../hooks/useCreateProject";
 import { ProjectNameField } from "../form/project-name-field";
 import { ProjectLocationField } from "../form/project-location-field";
 import { FrameworkSelectField } from "../form/framework-select-field";
-import { ProjectItemsField } from "../form/project-items-field";
+import { CheckListField } from "../form/check-list-field";
 import { SubmitButton } from "../form/submit-button";
 import { Progress } from "../ui/progress";
 
@@ -18,6 +18,7 @@ export function FormWrapper() {
       projectLocation: "",
       items: [],
       frameworkVersion: "",
+      features: ["swagger", "healthChecks"]
     },
   });
 
@@ -31,7 +32,18 @@ export function FormWrapper() {
             <ProjectNameField form={form} />
             <ProjectLocationField form={form} />
             <FrameworkSelectField form={form} />
-            <ProjectItemsField form={form} />
+            <CheckListField form={form}
+              name="items"
+              label="Projects"
+              description="Select which project types you want to add to your solution"
+              items={projects} />
+
+            <CheckListField form={form}
+              name="features"
+              label="Features"
+              description="Select which features you want to add to your solution"
+              items={features} />
+
             <div className="flex items-center space-x-2">
               <Progress
                 className="w-full"

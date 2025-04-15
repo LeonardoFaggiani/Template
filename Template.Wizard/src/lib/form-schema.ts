@@ -11,6 +11,7 @@ export const formSchema = z.object({
     .min(1, "Please select a location for the project."),
   items: z.array(z.string()),
   frameworkVersion: z.string().min(1, "Framework is required"),
+  features: z.array(z.string()),
 }).superRefine(async (data, ctx) => {
     
     const exists = await checkIfProjectExists(data.projectLocation, data.projectName);
@@ -30,10 +31,15 @@ export const frameworks = [
   { value: "net6.0", label: "NET 6" },
   { value: "net7.0", label: "NET 7" },
   { value: "net8.0", label: "NET 8" },
-] as const;
+];
 
-export const items = [
+export const projects = [
   { id: "unitTest", label: "Unit Tests" },
   { id: "dataTools", label: "Database (SSDT)" },
   { id: "sdk", label: "SDK" },
-] as const;
+]
+
+export const features = [
+  { id: "swagger", label: "Swagger" },
+  { id: "healthChecks", label: "HealthChecks" }
+]

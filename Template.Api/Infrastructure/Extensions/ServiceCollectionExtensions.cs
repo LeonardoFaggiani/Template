@@ -2,24 +2,27 @@
 using System.Text;
 
 using MediatR;
+using NetDevPack.Mediator;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
+
 using Microsoft.IdentityModel.Tokens;
+#if Swagger
+using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
-
-using NetDevPack.Mediator;
-
+#endif
+#if HealthChecks
+using Template.Api.Infrastructure.HealthChecks;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+#endif
 using Template.Api.CrossCutting.Bus;
 using Template.Api.Domian.Events;
 using Template.Api.Infrastructure.Data;
 using Template.Api.Infrastructure.Exceptions.Builder;
 using Template.Api.Infrastructure.Filters;
-using Template.Api.Infrastructure.HealthChecks;
 using Template.Api.Infrastructure.Repositories;
 using Template.Api.Infrastructure.Repositories.Base;
 
@@ -27,6 +30,8 @@ namespace Template.Api.Infrastructure.Extensions
 {
     public static class ServiceCollectionExtensions
     {
+#if Swagger
+
         private const string SwaggerDocVersion = "v1";
         private static string AssemblyName => Assembly.GetEntryAssembly().GetName().Name;
         private static string ApiName => Assembly.GetExecutingAssembly().GetName().Name;
@@ -98,6 +103,8 @@ namespace Template.Api.Infrastructure.Extensions
             return app;
         }
 
+#endif
+
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddTransient<ISampleRepository, SampleRepository>();
@@ -168,6 +175,7 @@ namespace Template.Api.Infrastructure.Extensions
             return services;
         }
 
+#if HealthChecks
         public static IApplicationBuilder UseHealthChecks(this IApplicationBuilder app)
         {
             app.UseHealthChecks("/health", new HealthCheckOptions
@@ -176,5 +184,6 @@ namespace Template.Api.Infrastructure.Extensions
             });
             return app;
         }
+#endif
     }
 }

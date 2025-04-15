@@ -363,3 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 /Template.Wizard/.vscode
 /Template.Packaging/Custom.Api.Template/Custom.Api.Template.csproj
+/Template.Packaging/Custom.Api.Template/README.md
+/Template.Packaging/Custom.Api.Template/docs/128x128.png

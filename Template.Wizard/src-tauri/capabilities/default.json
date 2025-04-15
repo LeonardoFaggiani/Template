@@ -45,6 +45,14 @@
             "-sdk",
             {
               "validator": ".+"
+            },
+            "-swagger",
+            {
+              "validator": ".+"
+            },
+            "-healthChecks",
+            {
+              "validator": ".+"
             }
           ]
         }

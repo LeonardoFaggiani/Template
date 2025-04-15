@@ -52,6 +52,18 @@
       "datatype": "bool",
       "defaultValue": "false",
       "displayName": "DataTools"
+    },
+    "Swagger": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "true",
+      "displayName": "Swagger"
+    },
+    "HealthChecks": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "true",
+      "displayName": "HealthChecks"
     }
   },
   "sources": [
