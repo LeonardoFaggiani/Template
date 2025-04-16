@@ -22,7 +22,7 @@ export function FormWrapper() {
     },
   });
 
-  const { onSubmit, isCreating, projectProcess } = useCreateProject(form);
+  const { onSubmit, isCreating, projectProcess } = useCreateProject();
 
   return (
     <div className="h-screen w-screen flex justify-center p-4">

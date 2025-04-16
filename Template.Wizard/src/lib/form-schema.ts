@@ -1,4 +1,4 @@
-import { checkIfProjectExists } from "../utils/select-folder";
+import { checkIfProjectExists } from "../utils/folder-extensions";
 import { z } from "zod";
 
 export const formSchema = z.object({

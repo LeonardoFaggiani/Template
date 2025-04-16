@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Command, TerminatedPayload } from "@tauri-apps/plugin-shell";
 import { toast } from "sonner";
-import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { ErrorMessageMappings } from "../lib/utils";
+import { resolveResource  } from "@tauri-apps/api/path";
 
-export function useCreateProject(form: UseFormReturn<z.infer<any>>) {
+export function useCreateProject() {
   const [isCreating, setIsCreating] = useState(false);
   const [projectProcess, setProjectProcess] = useState(0);
 
@@ -17,12 +17,12 @@ export function useCreateProject(form: UseFormReturn<z.infer<any>>) {
     const swagger = features.includes("swagger");
     const healthChecks = features.includes("healthChecks");
 
-    const scriptTemplatePath = "../src/script/install-template.ps1";
+    const fullScriptPath = await resolveResource("scripts/install-template.ps1");
 
     const command = await Command.create("exec-install-template", [
       "-ExecutionPolicy", "Bypass",
-      "-File", scriptTemplatePath,
-      "-templateSource", `${projectLocation}\\${projectName}`,
+      "-File", fullScriptPath,
+      "-templateSource", `${projectLocation}/${projectName}`,
       "-projectName", projectName,
       "-framework", frameworkVersion,
       "-unitTest", `${testingProject}`,

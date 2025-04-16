@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "CustomApiTemplate",
-  "version": "1.0.3",
-  "identifier": "com.CustomApiTemplate.app",  
+  "version": "1.0.4",
+  "identifier": "com.CustomApiTemplate.app",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
@@ -22,11 +22,12 @@
     ],
     "security": {
       "csp": null
-    }    
-  },  
+    }
+  },
   "bundle": {
     "active": true,
     "targets": "all",
+    "resources": ["scripts/install-template.ps1"],
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -34,5 +35,5 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ]
-  }  
+  }
 }

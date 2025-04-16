@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    templatewizard_lib::run()
+    customapitemplate_lib::run()
 }

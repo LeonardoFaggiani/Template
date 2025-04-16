@@ -58,6 +58,7 @@
         }
       ]
     },
-    "fs:default"
+    "fs:default",
+    "log:default"
   ]
 }

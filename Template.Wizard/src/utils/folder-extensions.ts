@@ -1,7 +1,7 @@
 import { open } from "@tauri-apps/plugin-dialog";
 import { exists } from '@tauri-apps/plugin-fs';
 
-export async function openFolder(): Promise<string | null> {
+export async function showDialog(): Promise<string | null> {
   const selected = await open({ directory: true, multiple: false });
   return typeof selected === "string" ? selected : null;
 }
@@ -14,4 +14,3 @@ export async function checkIfProjectExists(projectLocation:string, projectName:s
   }
   return false;
 }
-

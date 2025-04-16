@@ -11,7 +11,7 @@ import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { formSchema } from "../../lib/form-schema";
 import { useEffect, useMemo, useState } from "react";
-import { openFolder } from "../../utils/select-folder";
+import { showDialog } from "../../utils/folder-extensions";
 
 type FormSchema = z.infer<typeof formSchema>;
 
@@ -70,7 +70,7 @@ export function ProjectLocationField({ form }: ProjectLocationFieldProps) {
                 variant="outline"
                 className="w-full justify-start text-left font-normal"
                 onClick={async () => {
-                  const selected = await openFolder();
+                  const selected = await showDialog();
                   if (selected) {
                     field.onChange(selected);
                     setProjectLocation(selected);
